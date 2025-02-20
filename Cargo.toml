@@ -1,0 +1,48 @@
+[package]
+name = "build-poc-project-test"
+version = "0.0.1"
+edition = "2021"
+authors = ["Gautham <gautham@viam.com>"]
+resolver = "2"
+rust-version = "1.83"
+
+[profile.release]
+opt-level = "s"
+
+[profile.dev]
+debug = true # Symbols are nice and they don't increase the size on Flash
+opt-level = "z"
+
+[dependencies.micro-rdk]
+git = "https://github.com/viamrobotics/micro-rdk.git"
+version = "0.4.1-rc9"
+rev = "v0.4.1-rc9"
+features = [
+  "esp32",
+  "binstart",
+  
+]
+
+[dependencies]
+async-channel = "2"
+embedded-hal = { version = "~0.2", features = ["unproven"]}
+embedded-svc = "0.27"
+futures-lite = "2"
+log = "0.4"
+
+[build-dependencies]
+cargo_metadata = "0.19"
+embuild = "0.32"
+regex = "1.11"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[package.metadata.esp-idf-sys]
+# TODO(RSDK-8998): Upgrade ESP-IDF to latest stable
+esp_idf_version = "v4.4.8"
+esp_idf_tools_install_dir = "custom:target/.embuild/espressif"
+esp_idf_sdkconfig_defaults = [
+  "sdkconfig.defaults",
+]
+
+
